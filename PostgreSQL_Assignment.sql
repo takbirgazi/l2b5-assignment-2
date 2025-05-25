@@ -49,8 +49,7 @@ VALUES
 (2, 3, '2024-05-18 18:30:00', 'Snowfall Pass',NULL);
 
 -- Problem 1
-INSERT INTO
-    rangers (name, region)
+INSERT INTO rangers (name, region)
 VALUES
 ('Derek Fox', 'Coastal Plains');
 
@@ -75,8 +74,14 @@ ORDER BY sightings.sighting_time DESC
 LIMIT 2;
 
 -- Problem 7
-UPDATE species
-SET conservation_status = 'Historic'
-WHERE discovery_date < '1800-01-01';
+UPDATE species SET conservation_status = 'Historic' WHERE discovery_date < '1800-01-01';
 
-SELECT * FROM sightings;
+-- Problem 8
+SELECT sighting_id, CASE 
+WHEN EXTRACT(HOUR FROM sighting_time) BETWEEN 5 AND 11 THEN 'Morning'
+WHEN EXTRACT(HOUR FROM sighting_time) BETWEEN 12 AND 17 THEN 'Afternoon'
+ELSE 'Evening' END AS time_of_day
+FROM sightings;
+
+-- Problem 9
+DELETE FROM rangers WHERE ranger_id NOT IN (SELECT ranger_id FROM sightings);
